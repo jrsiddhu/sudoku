@@ -192,8 +192,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    document.addEventListener('keydown', (e) => {
+        if (!selectedCell) return;
+        
+        if (e.key >= '1' && e.key <= '9') {
+            inputNumber(parseInt(e.key));
+        } else if (e.key === 'Backspace' || e.key === 'Delete') {
+            // Erase logic
+            const r = parseInt(selectedCell.dataset.row);
+            const c = parseInt(selectedCell.dataset.col);
+            if (initial[r][c] === 0) {
+                board[r][c] = 0;
+                selectedCell.innerText = '';
+                selectedCell.classList.remove('wrong');
+            }
+        }
+    });
+
     // --- Event Listeners ---
 
+    difficultySelect.addEventListener('change', startNewGame);
     newGameBtn.addEventListener('click', startNewGame);
     modalRestart.addEventListener('click', startNewGame);
 
